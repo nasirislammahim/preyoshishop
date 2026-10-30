@@ -1,0 +1,194 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered customer or administrator profile",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "role": { "type": "string", "enum": ["customer", "admin"] },
+        "createdAt": { "type": "string" },
+        "address": { "type": "string", "maxLength": 300 }
+      },
+      "required": ["userId", "name", "phone", "role"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "E-commerce product item in Preyoshi Shop catalogue",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "nameEn": { "type": "string", "maxLength": 200 },
+        "nameBn": { "type": "string", "maxLength": 200 },
+        "sku": { "type": "string", "maxLength": 64 },
+        "categoryId": { "type": "string", "maxLength": 64 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "regularPrice": { "type": "number" },
+        "discountPrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "draft", "out_of_stock"] },
+        "isFeatured": { "type": "boolean" },
+        "isNewArrival": { "type": "boolean" },
+        "isBestSeller": { "type": "boolean" },
+        "isDemo": { "type": "boolean" },
+        "images": { "type": "array" },
+        "sizes": { "type": "array" },
+        "colors": { "type": "array" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "nameEn", "nameBn", "categoryId", "regularPrice", "stock", "status"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Store category with English and Bengali names",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "nameEn": { "type": "string", "maxLength": 100 },
+        "nameBn": { "type": "string", "maxLength": 100 },
+        "icon": { "type": "string", "maxLength": 64 },
+        "image": { "type": "string", "maxLength": 500 },
+        "itemCount": { "type": "number" }
+      },
+      "required": ["id", "nameEn", "nameBn"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase order with Bangladesh shipping info and status workflow",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "orderNumber": { "type": "string", "maxLength": 64 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "maxLength": 100 },
+        "division": { "type": "string", "maxLength": 50 },
+        "district": { "type": "string", "maxLength": 50 },
+        "upazila": { "type": "string", "maxLength": 50 },
+        "areaVillage": { "type": "string", "maxLength": 100 },
+        "deliveryAddress": { "type": "string", "maxLength": 400 },
+        "orderNotes": { "type": "string", "maxLength": 500 },
+        "paymentMethod": { "type": "string", "enum": ["cod", "bkash", "nagad", "rocket"] },
+        "paymentStatus": { "type": "string", "enum": ["pending", "verified", "failed"] },
+        "transactionId": { "type": "string", "maxLength": 64 },
+        "deliveryType": { "type": "string", "enum": ["courier", "own"] },
+        "courierName": { "type": "string", "maxLength": 100 },
+        "trackingNumber": { "type": "string", "maxLength": 100 },
+        "subtotal": { "type": "number" },
+        "deliveryCharge": { "type": "number" },
+        "discount": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "couponCode": { "type": "string", "maxLength": 30 },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"] },
+        "items": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "customerName", "phone", "district", "deliveryAddress", "paymentMethod", "deliveryType", "subtotal", "grandTotal", "status"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Product review and rating submitted by customer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "productId": { "type": "string", "maxLength": 64 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "maxLength": 1000 },
+        "location": { "type": "string", "maxLength": 100 },
+        "verifiedPurchase": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "productId", "customerName", "rating", "comment"]
+    },
+    "Coupon": {
+      "title": "Coupon",
+      "description": "Discount coupon code",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "maxLength": 30 },
+        "type": { "type": "string", "enum": ["percentage", "fixed"] },
+        "value": { "type": "number" },
+        "minOrder": { "type": "number" },
+        "description": { "type": "string", "maxLength": 200 },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["code", "type", "value", "isActive"]
+    },
+    "Banner": {
+      "title": "Banner",
+      "description": "Storefront promotional hero or campaign banner",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "titleBn": { "type": "string", "maxLength": 150 },
+        "titleEn": { "type": "string", "maxLength": 150 },
+        "subtitleBn": { "type": "string", "maxLength": 200 },
+        "subtitleEn": { "type": "string", "maxLength": 200 },
+        "image": { "type": "string", "maxLength": 500 },
+        "link": { "type": "string", "maxLength": 200 },
+        "badgeText": { "type": "string", "maxLength": 60 },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["id", "titleEn", "isActive"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Business settings for delivery charges and store information",
+      "type": "object",
+      "properties": {
+        "insideDhakaCharge": { "type": "number" },
+        "outsideDhakaCharge": { "type": "number" },
+        "ownDeliveryCharge": { "type": "number" },
+        "courierDeliveryCharge": { "type": "number" },
+        "freeDeliveryThreshold": { "type": "number" },
+        "bkashNumber": { "type": "string", "maxLength": 30 },
+        "nagadNumber": { "type": "string", "maxLength": 30 },
+        "rocketNumber": { "type": "string", "maxLength": 30 },
+        "supportPhone": { "type": "string", "maxLength": 30 },
+        "supportEmail": { "type": "string", "maxLength": 100 },
+        "supportAddress": { "type": "string", "maxLength": 200 },
+        "facebookUrl": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["insideDhakaCharge", "outsideDhakaCharge"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User customer and administrator profiles"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Public catalog products"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Store categories"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer purchase orders"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Customer reviews and ratings"
+    },
+    "/coupons/{couponId}": {
+      "schema": "Coupon",
+      "description": "Discount voucher codes"
+    },
+    "/banners/{bannerId}": {
+      "schema": "Banner",
+      "description": "Store promotional banners"
+    },
+    "/settings/{settingId}": {
+      "schema": "Settings",
+      "description": "Global store configuration and delivery rates"
+    }
+  }
+}
